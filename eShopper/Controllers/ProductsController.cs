@@ -1,4 +1,5 @@
 ﻿using eShopper.Core.Entities;
+using eShopper.Core.Interfaces;
 using eShopper.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,25 +10,35 @@ namespace eShopper.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly StoreContext _context;
+       private readonly IProductRepository _productRepository;
 
-        public ProductsController(StoreContext context )
+        public ProductsController(IProductRepository productRepository)
         {
-            _context = context;
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
-            var products = await _context.Products.ToListAsync();
-            return products;
+            var products = await _productRepository.GetProductsAsync();
+            return Ok(products);
         }
 
         [HttpGet("{id}")]
         public async  Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product =  await _context.Products.FindAsync(id);
-            return product; ;
+            return  await _productRepository.GetProductByIdAync(id);
+        }
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductsBrands()
+        {
+            return Ok(await _productRepository.GetProductBrandsAsync());
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductsTypes()
+        {
+            return Ok(await _productRepository.GetProductTypesAsync());
         }
     }
 }
