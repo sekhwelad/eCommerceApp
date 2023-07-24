@@ -1,14 +1,16 @@
-﻿using eShopper.Entities;
+﻿using eShopper.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace eShopper.Data
+namespace eShopper.Infrastructure.Data
 {
     public class StoreContext : DbContext
     {
-        public StoreContext(DbContextOptions options) : base(options)
+
+        public StoreContext(DbContextOptions<StoreContext> options) : base(options)
         {
         }
 
         public DbSet<Product> Products { get; set; }
+
     }
 }

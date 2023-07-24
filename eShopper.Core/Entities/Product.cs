@@ -1,4 +1,4 @@
-﻿namespace eShopper.Entities
+﻿namespace eShopper.Core.Entities
 {
     public class Product
     {

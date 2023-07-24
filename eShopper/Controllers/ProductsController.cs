@@ -1,5 +1,5 @@
-﻿using eShopper.Data;
-using eShopper.Entities;
+﻿using eShopper.Core.Entities;
+using eShopper.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

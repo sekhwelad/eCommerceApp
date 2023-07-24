@@ -1,4 +1,4 @@
-using eShopper.Data;
+using eShopper.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
