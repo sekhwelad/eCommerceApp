@@ -17,19 +17,6 @@ namespace eShopper.Extensions
                 options.UseSqlite(config.GetConnectionString("DefaultConnection"));
             });
 
-            var MyAllowSpecificOrigins = "*";
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                                      policy =>
-                                      {
-                                          policy.WithOrigins("http://localhost:4200",
-                                                              "*")
-                                                              .AllowAnyHeader()
-                                                              .AllowAnyMethod();
-                                      });
-            });
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -50,6 +37,20 @@ namespace eShopper.Extensions
                     return new BadRequestObjectResult(errorResponse);
                 };
             });
+
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                                      policy =>
+                                      {
+                                          policy.WithOrigins("https://localhost:4200")
+                                                .AllowAnyHeader()
+                                                .AllowAnyMethod();
+                                      });
+            });
+
+
             return services;
         }
     }

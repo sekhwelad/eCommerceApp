@@ -4,6 +4,7 @@ using eShopper.Core.Interfaces;
 using eShopper.Core.Specifications;
 using eShopper.DTOs;
 using eShopper.Errors;
+using eShopper.Helpers;
 using eShopper.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,13 +29,21 @@ namespace eShopper.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductResponseDto>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductResponseDto>>> GetProducts([FromQuery] ProductSpecParams productParams)
         {
-            var spec = new ProductsWithTypesAndBrandsSpecification();
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
+
+            var countSpec = new ProductWithFiltersForCountSpecification(productParams);
+
+            var totalItems = await _productRepository.CountAsync(countSpec);
+
             var products = await _productRepository.ListAsync(spec);
 
-            return Ok(_mapper.
-                Map<IReadOnlyList<Product>, IReadOnlyList<ProductResponseDto>>(products));
+            var data = _mapper.
+                Map<IReadOnlyList<Product>, IReadOnlyList<ProductResponseDto>>(products);
+
+            return Ok(new Pagination<ProductResponseDto>(productParams.PageIndex,
+                productParams.PageSize,totalItems,data));
         }
 
         [HttpGet("{id}")]
