@@ -8,7 +8,6 @@ using eShopper.Infrastructure.Data;
 
 namespace eShopper.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(StoreContext))]
     partial class StoreContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

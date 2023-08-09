@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eShopper.Infrastructure.Data;
+using eShopper.Infrastructure.Identity;
 
 #nullable disable
 
 namespace eShopper.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(StoreContext))]
+    [DbContext(typeof(AppIdentityDbContext))]
     [Migration("20230724130919_InitialCreate")]
     partial class InitialCreate
     {
