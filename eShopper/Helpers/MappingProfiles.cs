@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eShopper.Core.Entities;
+using eShopper.Core.Entities.Identity;
 using eShopper.DTOs;
 
 namespace eShopper.Helpers
@@ -13,6 +14,9 @@ namespace eShopper.Helpers
                 .ForMember(d => d.ProductType, o => o.MapFrom(s => s.ProductType.Name))
                 .ForMember(d => d.PictureUrl, o => o.MapFrom<ProductUrlResolver>())
                 .ReverseMap();
+
+
+            CreateMap<Address, AddressDto>().ReverseMap();
         }
     }
 }
