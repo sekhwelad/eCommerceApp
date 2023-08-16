@@ -61,10 +61,11 @@ namespace eShopper.Controllers
                 DisplayName = user.DisplayName
             };
         }
-        [Authorize]
+        //[Authorize]
         [HttpGet("emailexists")]
         public async Task<ActionResult<bool>> CheckEmailExistsAsync([FromQuery] string email)
         {
+            var hold = await _userManager.FindByEmailAsync(email) != null;
             return await _userManager.FindByEmailAsync(email) != null;
         }
 
@@ -94,9 +95,6 @@ namespace eShopper.Controllers
 
 
         }
-
-
-    
 
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)

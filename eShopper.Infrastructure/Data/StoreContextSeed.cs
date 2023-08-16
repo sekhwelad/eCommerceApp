@@ -1,4 +1,5 @@
 ﻿using eShopper.Core.Entities;
+using eShopper.Core.Entities.OrderAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,15 @@ namespace eShopper.Infrastructure.Data
                 context.Products.AddRange(products);
             }
 
-            if(context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
+            if (!context.DeliveryMethods.Any())
+            {
+                var deliveryData = File.ReadAllText("C:\\Users\\user-pc\\Documents\\Udemy\\2023\\e-Commerce App with .Net Core & Angular\\Project\\WebAPI\\eCommerceApp\\eShopper.Infrastructure\\Data\\SeedData\\delivery.json");
+                var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
+                context.DeliveryMethods.AddRange(methods);
+            }
+
+
+            if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
         }
     }
 }
