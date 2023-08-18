@@ -15,7 +15,6 @@ namespace eShopper.Helpers
                 .ForMember(d => d.PictureUrl, o => o.MapFrom<ProductUrlResolver>())
                 .ReverseMap();
 
-
             CreateMap<Core.Entities.Identity.Address, AddressDto>().ReverseMap();
             CreateMap<CustomerBasketDto,CustomerBasket>();
             CreateMap<BasketItemDto,BasketItem>();
