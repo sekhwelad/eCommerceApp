@@ -5,9 +5,7 @@ using eShopper.Core.Specifications;
 using eShopper.DTOs;
 using eShopper.Errors;
 using eShopper.Helpers;
-using eShopper.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace eShopper.Controllers
 {
@@ -27,7 +25,7 @@ namespace eShopper.Controllers
             _productTypeRepository = productTypeRepository;
             _mapper = mapper;
         }
-
+        [Cached(600)]
         [HttpGet]
         public async Task<ActionResult<Pagination<ProductResponseDto>>> GetProducts([FromQuery] ProductSpecParams productParams)
         {
@@ -45,7 +43,7 @@ namespace eShopper.Controllers
             return Ok(new Pagination<ProductResponseDto>(productParams.PageIndex,
                 productParams.PageSize,totalItems,data));
         }
-
+        [Cached(600)]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -57,12 +55,15 @@ namespace eShopper.Controllers
             if(product == null) { return NotFound(new ApiResponse(404)); }
             return _mapper.Map<Product, ProductResponseDto>(product);
         }
+
+        [Cached(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductsBrands()
         {
             return Ok(await _productBrandRepository.ListAllAsync());
         }
 
+        [Cached(600)]
         [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductsTypes()
         {
